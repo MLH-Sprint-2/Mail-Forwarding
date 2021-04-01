@@ -9,8 +9,10 @@ const {
 const router = express.Router();
 
 
-// * :id represents a variable id '?' means optional
-router.route('/').get(getAlias).post(checkBody, createAlias);
 
+// router.route('/').get(getAlias).post(checkBody, createAlias);
+
+// * :domain represents a variable domain
+router.route('/:domain').get(getAlias).post(checkBody, createAlias);
 
 exports.aliasRouter = router; 

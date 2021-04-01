@@ -2,10 +2,10 @@ const fetch = require('node-fetch');
 const btoa = require('btoa');
 require('dotenv').config();
 
-async function forwardemail(method, body = '', ) {
+async function forwardemail(method, domain, body = '', ) {
 	try {
 		const response = await fetch(
-			`https://api.forwardemail.net/v1/domains/${body.domain || "hideaddress.net"}/aliases`,
+			`https://api.forwardemail.net/v1/domains/${domain}/aliases`,
 			{
 				headers: {
 					method,
