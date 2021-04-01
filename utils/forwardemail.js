@@ -9,7 +9,7 @@ async function forwardemail(method, body = '', ) {
 			{
 				headers: {
 					method,
-					Authorization: 'Basic ' + btoa(process.env.KEY),
+					Authorization: 'Basic ' + btoa(process.env.KEY+':'),
 					body: JSON.stringify(body),
 					'Content-Type': 'application/json',
 				},
