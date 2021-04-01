@@ -1,10 +1,10 @@
 const { forwardemail } = require('../utils/forwardemail');
 
 function checkBody(req, res, next) {
-	if (!req.body.name || !req.body.recipients) {
+	if (!req.body.name || !req.body.recipients || !req.body.domain) {
 		return res.status(400).json({
 			status: 'fail',
-			message: 'Missing name or recipient',
+			message: 'Missing name, recipient or domain',
 		});
 	}
 	next();
@@ -19,6 +19,7 @@ function getAlias(req, res) {
 					status: 'fail',
 					message: data
 				})
+				return;
 			}
 			res.status(200).json({
 				status: data.statusCode,

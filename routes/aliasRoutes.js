@@ -3,7 +3,7 @@ const {
     getAlias,
     checkBody,
     createAlias
-} = require('../controllers/emailController');
+} = require('../controllers/aliasController');
 
 // * Routes
 const router = express.Router();
@@ -13,4 +13,4 @@ const router = express.Router();
 router.route('/').get(getAlias).post(checkBody, createAlias);
 
 
-exports.aliasRouter = router;
+exports.aliasRouter = router; 
