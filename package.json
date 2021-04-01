@@ -1,0 +1,19 @@
+{
+  "name": "mail-forwarding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "btoa": "^1.2.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "forward-email": "^8.0.6",
+    "node-fetch": "^2.6.1"
+  }
+}
