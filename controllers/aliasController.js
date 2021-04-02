@@ -15,9 +15,9 @@ function getAlias(req, res) {
 		try {
 			const data = await forwardemail('Get', req.params.domain);
 			if (data.statusCode) {
-				res.status(data.statusCode).json({
+				res.status(500).json({
 					status: 'fail',
-					message: data
+					message: 'Internal Server Error'
 				})
 				return;
 			}
