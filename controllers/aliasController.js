@@ -13,18 +13,16 @@ function checkBody(req, res, next) {
 function getAlias(req, res) {
 	(async () => {
 		try {
-			const data = await forwardemail('Get', req.params.domain);
-			if (data.statusCode) {
-				res.status(500).json({
-					status: 'fail',
-					message: 'Internal Server Error'
-				})
-				return;
+			const data = await forwardemail('get', req.params.domain);
+			if (data.statusCode == 404) {
+				res.status(404).json(data);
+			} else if (data.statusCode) {
+				// if statusCode is defined it means there was an error
+				res.status(500).json(data);
+			} else {
+				// no error
+				res.status(200).json(filterData(data));
 			}
-			res.status(200).json({
-				status: data.statusCode,
-				data,
-			});
 		} catch (error) {
 			console.log(error);
 		}
@@ -49,6 +47,14 @@ function createAlias(req, res) {
 			console.log(error);
 		}
 	})(req.body);
+}
+
+const filterData = (data) => {
+	let aliases = [];
+	data.forEach(( { name, domain, id, recipients, is_enabled } ) => {
+		aliases = [...aliases, { name, domain: domain.name, id, recipients, is_enabled} ];
+	});
+	return aliases;
 }
 
 module.exports = {
