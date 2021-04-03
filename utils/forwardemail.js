@@ -3,14 +3,13 @@ const btoa = require('btoa');
 require('dotenv').config();
 
 async function forwardemail(method, domain, body) {
-	try {
+	try {		
 		const response = await fetch(
 			`https://api.forwardemail.net/v1/domains/${domain}/aliases`,
 			{
+				method: method,
 				headers: {
-					method,
 					Authorization: 'Basic ' + btoa(process.env.KEY+':'),
-					// body: JSON.stringify(body),
 					'Content-Type': 'application/json',
 				},
 				...(body) && {body: JSON.stringify(body)},
@@ -19,7 +18,7 @@ async function forwardemail(method, domain, body) {
 		const json = await response.json();
 		return json;
 	} catch (error) {
-		console.log(error.response);
+		console.error("error: ", error);
 	}
 }
 exports.forwardemail = forwardemail;

@@ -32,17 +32,18 @@ function getAlias(req, res) {
 function createAlias(req, res) {
 	(async (body) => {
 		try {
-			const data = await forwardemail('POST', req.params.domain, body);
-			if (data.statusCode) {
-				res.status(data.statusCode).json({
-					status: 'fail',
-					message: data
-				})
+			const data = await forwardemail('post', req.params.domain, body);
+			if (data.statusCode == 404) {
+				res.status(404).json(data);
+			} else if (data.statusCode) {
+				// if statusCode is defined it means there was an error
+				res.status(500).json(data);
+			} else {
+				// no error
+				const { name, domain, id, recipients, is_enabled } = data;
+				res.status(200).json({ name, domain: domain.name, id, recipients, is_enabled });
 			}
-			res.status(data.statusCode).json({
-				status: data.statusCode,
-				data,
-			});
+			
 		} catch (error) {
 			console.log(error);
 		}
@@ -51,8 +52,8 @@ function createAlias(req, res) {
 
 const filterData = (data) => {
 	let aliases = [];
-	data.forEach(( { name, domain, id, recipients, is_enabled } ) => {
-		aliases = [...aliases, { name, domain: domain.name, id, recipients, is_enabled} ];
+	data.forEach(( { name, domain, id, recipients, is_enabled} ) => {
+		aliases = [...aliases, { name, domain: domain.name, id, recipients, is_enabled } ];
 	});
 	return aliases;
 }
